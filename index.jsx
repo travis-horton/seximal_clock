@@ -28,9 +28,9 @@ export const SeximalTimeKeeping = () => {
 
   const degrees = [];
 
-  marks = 36;
+  const second_marks = 36;
 
-  for (let i = 0; i < marks; i++) {
+  for (let i = 0; i < second_marks; i++) {
     degrees.push(i * 10)
   }
 
