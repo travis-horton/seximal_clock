@@ -1,8 +1,5 @@
-html {
-  background: #dedede;
-}
-
 svg {
+  background: #dedede;
   fill: white;
   stroke: black;
   stroke-width: 0.2;
