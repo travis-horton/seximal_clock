@@ -1,0 +1,29 @@
+html {
+  background: #dedede;
+}
+
+svg {
+  fill: white;
+  stroke: black;
+  stroke-width: 0.2;
+  stroke-linecap: round;
+}
+
+.marks {
+  stroke-width: 0.2;
+}
+
+.label {
+  font: normal 2px serif;
+  stroke: blue;
+  fill: blue;
+}
+
+.seconds {
+  font: normal 1px serif;
+  line: None;
+}
+
+.time {
+  font: normal 3px serif;
+}
