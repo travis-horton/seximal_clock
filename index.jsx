@@ -34,8 +34,8 @@ export const SeximalTimeKeeping = () => {
     degrees.push(i * 10)
   }
 
-  number_of_labels = 6;
-  clock_labels = [];
+  const number_of_labels = 6;
+  const clock_labels = [];
   for (let i = 0; i < number_of_labels; i++) {
     clock_labels.push(i * (360 / number_of_labels) - 2.5);
   }
