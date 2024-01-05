@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import MinuteObject from './MinuteObject';
 import TimeKeepingUnit from './TimeKeepingUnit';
 import {sexaSecsInADay, milliSecondsInADay} from './constants';
 
