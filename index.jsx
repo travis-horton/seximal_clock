@@ -26,40 +26,12 @@ export const SeximalTimeKeeping = () => {
     setTime(new Date());
   }
 
-  const degrees = [];
-
-  const second_marks = 36;
-
-  for (let i = 0; i < second_marks; i++) {
-    degrees.push(i * 10)
-  }
-
-  const number_of_labels = 6;
-  const clock_labels = [];
-  for (let i = 0; i < number_of_labels; i++) {
-    clock_labels.push(i * (360 / number_of_labels) - 2.5);
-  }
-
   return (
     <div>
       <svg viewBox="0 0 40 40">
       <circle cx="20" cy="20" r="12" />
-      <g className="marks">
-        {degrees.map((deg, idx) => {
-          if (idx % 6 > 0) {
-          return (
-            <line 
-              key={deg}
-              x1="20"
-              y1="31.5"
-              x2="20"
-              y2="31.25"
-              transform={`rotate(${deg} 20 20)`}
-            />
-          )
-          }
-        })}
-      </g>
+      <Marks />
+      <ClockLabels />
       <circle
         cx="20"
         cy="7"
@@ -69,26 +41,65 @@ export const SeximalTimeKeeping = () => {
       />
       <text
         x="20"
-        y="20"
+        y="7"
         className="time"
       >
         :{niftimal[Math.floor(whichHexaSecond)]}
       </text>
-      <g>
-        {clock_labels.map((deg, idx) => (
-          <text
-            key={deg}
-            x="20"
-            y="10"
-            transform={`rotate(${deg} 20 20)`}
-            className="label"
-          >
-            {idx}
-          </text>
-        ))}
-      </g>
       </svg>
     </div>
+  );
+};
+
+const Marks = () => {
+  const degrees = [];
+  const second_marks = 36;
+
+  for (let i = 0; i < second_marks; i++) {
+    degrees.push(i * 10)
+  }
+
+  return (
+    <g className="marks">
+      {degrees.map((deg, idx) => {
+        if (idx % 6 > 0) {
+        return (
+          <line 
+            key={deg}
+            x1="20"
+            y1="31.5"
+            x2="20"
+            y2="31.25"
+            transform={`rotate(${deg} 20 20)`}
+          />
+        )
+        }
+      })}
+    </g>
+  );
+};
+
+const ClockLabels = () => {
+  const number_of_labels = 6;
+  const clock_labels = [];
+  for (let i = 0; i < number_of_labels; i++) {
+    clock_labels.push(i * (360 / number_of_labels) - 2.5);
+  }
+
+  return (
+    <g>
+      {clock_labels.map((deg, idx) => (
+        <text
+          key={deg}
+          x="20"
+          y="10"
+          transform={`rotate(${deg} 20 20)`}
+          className="label"
+        >
+          {idx}
+        </text>
+      ))}
+    </g>
   );
 };
 
