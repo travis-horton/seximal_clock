@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
+import MinuteObject from './MinuteObject';
+import TimeKeepingUnit from './TimeKeepingUnit';
+import {sexaSecsInADay, milliSecondsInADay} from './constants';
+
 import './styles.css';
 
-const sexaHoursInADay = 36;
-const sexaMinsInADay = 36 * sexaHoursInADay;
-const sexaSecsInADay = 36 * sexaMinsInADay;
-
-const milliSecondsInADay = 1000 * 60 * 60 * 24;
-
-export const SeximalTimeKeeping = () => {
-  const [time, setTime] = useState(new Date());
-  const whichHexaSecond = (time.getTime() % milliSecondsInADay) * (
+const getSexaTime = () => {
+  const now = new Date();
+  const whichSexaSecond = (now.getTime() % milliSecondsInADay) * (
     sexaSecsInADay / milliSecondsInADay 
   ) % 36;
 
+  return {
+    value: 3,
+    smallerUnit: {
+      value: whichSexaSecond,
+    },
+  }
+};
+
+export const SeximalTimeKeeping = () => {
+  const [sexaTime, setSexaTime] = useState(getSexaTime());
   useEffect(() => {
-    const timerID = setInterval( () => tick(), 50);
+    const timerID = setInterval( () => tick(), 20);
 
     return function cleanup() {
       clearInterval(timerID);
@@ -23,29 +31,13 @@ export const SeximalTimeKeeping = () => {
   });
 
   function tick() {
-    setTime(new Date());
+    setSexaTime(getSexaTime());
   }
 
   return (
     <div>
       <svg viewBox="0 0 40 40">
-      <circle cx="20" cy="20" r="12" />
-      <Marks />
-      <ClockLabels />
-      <circle
-        cx="20"
-        cy="7"
-        r="1"
-        transform={`rotate(${whichHexaSecond * 10} 20 20)`}
-        className="seconds"
-      />
-      <text
-        x="20"
-        y="7"
-        className="time"
-      >
-        :{niftimal[Math.floor(whichHexaSecond)]}
-      </text>
+      <TimeKeepingUnit unit={sexaTime} />
       </svg>
     </div>
   );
@@ -103,7 +95,3 @@ const ClockLabels = () => {
   );
 };
 
-const niftimal = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-  "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-]
