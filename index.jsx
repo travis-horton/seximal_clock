@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
 import TimeKeepingUnit from './TimeKeepingUnit';
-import {sexaSecsInADay, milliSecondsInADay} from './constants';
-
+import {sexaSecsInADay, sexaMinsInADay, milliSecondsInADay} from './constants';
 import './styles.css';
 
 const getSexaTime = () => {
   const now = new Date();
-  const whichSexaSecond = (now.getTime() % milliSecondsInADay) * (
-    sexaSecsInADay / milliSecondsInADay 
-  ) % 36;
+  const currentMilliSecond = (now.getTime() % milliSecondsInADay);
+  const percentIntoDay = currentMilliSecond / milliSecondsInADay;
+  const sexaSecond = (sexaSecsInADay * percentIntoDay) % 36;
+  const sexaMinute = (sexaMinsInADay * percentIntoDay) % 36;
 
   return {
     value: 3,
     smallerUnit: {
-      value: whichSexaSecond,
+      value: sexaMinute,
+      smallerUnit: {
+        value: sexaSecond,
+      }
     },
   }
 };

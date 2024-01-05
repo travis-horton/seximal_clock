@@ -11,6 +11,7 @@ const niftimal = [
 
 export {
   sexaSecsInADay,
+  sexaMinsInADay,
   milliSecondsInADay,
   niftimal,
 };
