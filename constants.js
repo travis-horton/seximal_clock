@@ -9,9 +9,26 @@ const niftimal = [
   "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
 ]
 
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 export {
   sexaSecsInADay,
   sexaMinsInADay,
+  sexaHoursInADay,
   milliSecondsInADay,
   niftimal,
+  months,
 };

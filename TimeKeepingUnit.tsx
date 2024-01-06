@@ -1,60 +1,67 @@
-import {niftimal} from './constants';
+import {niftimal, months} from './constants';
 
-type Unit = {
+type TimeKeepingUnit = {
   value: number,
-  smallerUnit?: Unit,
+  smallerUnit?: TimeKeepingUnit,
 };
-
-const depth = (unit: Unit): number => {
-  return unit.smallerUnit
-    ? 2 + depth(unit.smallerUnit)
-    : 1;
-};
-const toRadian = (deg) => deg * Math.PI/180;
-
-type Barycenter = {
+type Vector = {
   x: number,
   y: number,
 };
+
+const depth = (unit: TimeKeepingUnit): number => {
+  return unit.smallerUnit
+    ? 1 + depth(unit.smallerUnit)
+    : 1;
+};
+const toRadian = (deg: number) => deg * Math.PI/180;
+const getSVGRotation = (point: Vector, axis: Vector, angle: number) => {
+  const x = point.x - axis.x;
+  const y = -(point.y - axis.y);
+
+  return {
+    x: x * Math.cos(angle) + y * Math.sin(angle) + axis.x,
+    y: -(-x * Math.sin(angle) + y * Math.cos(angle)) + axis.y,
+  }
+};
+
 type TimeKeepingUnitProps = {
-  unit: Unit,
-  barycenter?: Barycenter,
+  unit: TimeKeepingUnit,
+  parentCenter?: Vector,
 }
 
 const TimeKeepingUnit = (
-  {unit, barycenter}: TimeKeepingUnitProps
+  {unit, parentCenter}: TimeKeepingUnitProps
 ) => {
   const {value} = unit;
   const scale = depth(unit);
   const angle = toRadian(value * 10);
 
-  // TODO: You have to manually calculate the new center because we have to pass
-  // it down to the subUnits. That involves trig, so math time...
-  // I think it's:
-  // x' =  x*cos(a) + y*sin(a)
-  // y' = -x*sin(a) + y*cos(a)
-  // but you have to account for the grid not being centered.
-  const thisCenter = barycenter 
-    ? {x: 20, y: 20} // <--- HERE
-    : {x: 20, y: 20};
-
-  barycenter = barycenter || thisCenter;
+  const thisCenter = parentCenter 
+    ? (
+      getSVGRotation(
+        {x: parentCenter.x, y: parentCenter.y - ((Math.pow(3, scale - 1)) * 2)},
+        parentCenter,
+        angle,
+      )
+    )
+    : {x: 100, y: 100};
 
   return (
     <>
       <circle
         cx={thisCenter.x}
         cy={thisCenter.y}
-        r={scale}
+        r={Math.pow(3, scale - 1)}
       />
       <text
         x={thisCenter.x}
         y={thisCenter.y}
         style={{font: `normal ${scale}px monospace`}}
       >
-        {niftimal[Math.floor(value)]}
+        {depth(unit) === 5 ? months[value] : niftimal[Math.floor(value)]}
       </text>
-      {unit.smallerUnit && <TimeKeepingUnit unit={unit.smallerUnit} barycenter={thisCenter} />}
+      {unit.smallerUnit && <TimeKeepingUnit unit={unit.smallerUnit} parentCenter={thisCenter} />}
     </>
   );
 };

@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 import TimeKeepingUnit from './TimeKeepingUnit';
-import {sexaSecsInADay, sexaMinsInADay, milliSecondsInADay} from './constants';
+import {
+  sexaSecsInADay,
+  sexaMinsInADay,
+  sexaHoursInADay,
+  milliSecondsInADay,
+} from './constants';
 import './styles.css';
 
 const getSexaTime = () => {
@@ -10,16 +15,23 @@ const getSexaTime = () => {
   const percentIntoDay = currentMilliSecond / milliSecondsInADay;
   const sexaSecond = (sexaSecsInADay * percentIntoDay) % 36;
   const sexaMinute = (sexaMinsInADay * percentIntoDay) % 36;
+  const sexaHour = (sexaHoursInADay * percentIntoDay) % 36;
 
   return {
-    value: 3,
+    value: now.getMonth(),
     smallerUnit: {
-      value: sexaMinute,
+      value: now.getDay(),
       smallerUnit: {
-        value: sexaSecond,
-      }
+        value: sexaHour,
+        smallerUnit: {
+          value: sexaMinute,
+          smallerUnit: {
+            value: sexaSecond,
+          }
+        },
+      },
     },
-  }
+  };
 };
 
 export const SeximalTimeKeeping = () => {
@@ -38,7 +50,7 @@ export const SeximalTimeKeeping = () => {
 
   return (
     <div>
-      <svg viewBox="0 0 40 40">
+      <svg viewBox="0 0 200 200">
       <TimeKeepingUnit unit={sexaTime} />
       </svg>
     </div>
