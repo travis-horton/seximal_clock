@@ -51,7 +51,7 @@ export const SeximalTimeKeeping = () => {
   return (
     <div>
       <svg viewBox="0 0 200 200">
-      <TimeKeepingUnit unit={sexaTime} />
+        <TimeKeepingUnit unit={sexaTime} />
       </svg>
     </div>
   );
