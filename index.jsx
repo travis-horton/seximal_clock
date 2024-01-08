@@ -9,6 +9,8 @@ import {
 } from './constants';
 import './styles.css';
 
+const SIZE = 40;
+
 const getSexaTime = () => {
   const now = new Date();
   const currentMilliSecond = (now.getTime() % milliSecondsInADay);
@@ -18,18 +20,9 @@ const getSexaTime = () => {
   const sexaHour = (sexaHoursInADay * percentIntoDay) % 36;
 
   return {
-    value: now.getMonth(),
+    value: 0,
     smallerUnit: {
-      value: now.getDay(),
-      smallerUnit: {
-        value: sexaHour,
-        smallerUnit: {
-          value: sexaMinute,
-          smallerUnit: {
-            value: sexaSecond,
-          }
-        },
-      },
+      value: sexaSecond/36,
     },
   };
 };
@@ -50,8 +43,8 @@ export const SeximalTimeKeeping = () => {
 
   return (
     <div>
-      <svg viewBox="0 0 200 200">
-        <TimeKeepingUnit unit={sexaTime} />
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`}>
+        <TimeKeepingUnit unit={sexaTime} size={SIZE}/>
       </svg>
     </div>
   );

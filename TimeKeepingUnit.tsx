@@ -1,18 +1,25 @@
 import React from 'react';
 import {niftimal, months} from './constants';
 import {TimeKeepingUnit, Vector} from './types';
-import {toRadian, getSVGRotation, depth} from './utils';
+import {
+  toRadian,
+  getSVGRotation,
+  depth,
+  findHexagonStartPoint,
+} from './utils';
 import Hexagon from './Hexagon';
 
 type TimeKeepingUnitProps = {
   unit: TimeKeepingUnit,
+  size?: number,
   parentCenter?: Vector,
+  parentStart?: Vector,
 }
 const TimeKeepingUnit = (
-  {unit, parentCenter}: TimeKeepingUnitProps
+  {unit, size, parentCenter, parentStart}: TimeKeepingUnitProps
 ) => {
   const {value} = unit;
-  const scale = depth(unit);
+  const scale = Math.pow(3, depth(unit) - 1) * 1.14;
   const angle = toRadian(value * 10);
 
   const thisCenter = parentCenter 
@@ -23,32 +30,44 @@ const TimeKeepingUnit = (
         angle,
       )
     )
-    : {x: 100, y: 100};
+    : {x: size ? size/2 : 0, y: size ? size/2 : 0};
+
+  const hexStart = parentStart
+    ? findHexagonStartPoint(parentStart, value, scale)
+    : {x: size ? size / 3 : 0, y: size ? size / (3 * depth(unit)) : 0};
+
+  const howFarAlongTheLine = ((value * 6) % 1 * 2/3)
+  const hexAngle = ((howFarAlongTheLine * Math.PI * 3/2) % (Math.PI / 2)) * 2/3;
 
   return (
     <>
-      <circle
-        cx={thisCenter.x}
-        cy={thisCenter.y}
-        r={Math.pow(3, scale - 1)}
-      />
-      {/* Just take out this Hexagon... */}
+      {/*
+        Just replace the Hexagon with the commented out code
+        <circle
+          cx={thisCenter.x}
+          cy={thisCenter.y}
+          r={Math.pow(3, scale - 1)}
+        />
+        <text
+          x={thisCenter.x}
+          y={thisCenter.y}
+          style={{font: `normal ${scale}px monospace`}}
+        >
+          {depth(unit) === 5 ? months[value] : niftimal[Math.floor(value)]}
+        </text>
+      */}
       <Hexagon
-        start={{
-          x: thisCenter.x - Math.pow(3, scale - 1)/1.5,
-          y: thisCenter.y - Math.pow(3, scale - 1),
-        }}
-        length={Math.pow(3, scale - 1)*1.14}
-        angle={angle}
+        start={hexStart}
+        length={scale}
+        angle={-hexAngle}
       />
-      <text
-        x={thisCenter.x}
-        y={thisCenter.y}
-        style={{font: `normal ${scale}px monospace`}}
-      >
-        {depth(unit) === 5 ? months[value] : niftimal[Math.floor(value)]}
-      </text>
-      {unit.smallerUnit && <TimeKeepingUnit unit={unit.smallerUnit} parentCenter={thisCenter} />}
+      {unit.smallerUnit && (
+        <TimeKeepingUnit
+          unit={unit.smallerUnit}
+          parentCenter={thisCenter}
+          parentStart={hexStart}
+        />
+      )}
     </>
   );
 };
