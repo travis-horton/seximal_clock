@@ -4,7 +4,7 @@ import TimeKeepingUnit from './TimeKeepingUnit';
 import {
   sexaSecsInADay,
   sexaMinsInADay,
-  sexaHoursInADay,
+  // sexaHoursInADay,
   milliSecondsInADay,
 } from './constants';
 import './styles.css';
@@ -17,12 +17,15 @@ const getSexaTime = () => {
   const percentIntoDay = currentMilliSecond / milliSecondsInADay;
   const sexaSecond = (sexaSecsInADay * percentIntoDay) % 36;
   const sexaMinute = (sexaMinsInADay * percentIntoDay) % 36;
-  const sexaHour = (sexaHoursInADay * percentIntoDay) % 36;
+  // const sexaHour = (sexaHoursInADay * percentIntoDay) % 36;
 
   return {
     value: 0,
     smallerUnit: {
-      value: sexaSecond/36,
+      value: sexaMinute,
+      smallerUnit: {
+        value: sexaSecond/36,
+      },
     },
   };
 };
@@ -44,7 +47,11 @@ export const SeximalTimeKeeping = () => {
   return (
     <div>
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`}>
-        <TimeKeepingUnit unit={sexaTime} size={SIZE}/>
+        <TimeKeepingUnit
+          unit={sexaTime}
+          start={{x: SIZE/6, y: SIZE/6}}
+          angle={0}
+        />
       </svg>
     </div>
   );

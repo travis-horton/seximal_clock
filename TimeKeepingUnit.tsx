@@ -2,70 +2,47 @@ import React from 'react';
 import {niftimal, months} from './constants';
 import {TimeKeepingUnit, Vector} from './types';
 import {
-  toRadian,
-  getSVGRotation,
-  depth,
-  findHexagonStartPoint,
+  getDepth,
 } from './utils';
-import Hexagon from './Hexagon';
+import Hexagon, {findHexagonStartPoint} from './Hexagon';
+
+/*
+const howFarAlongTheLine = ((value * 6) % 1 * 2/3)
+const angle = ((howFarAlongTheLine * Math.PI * 3/2) % (Math.PI / 2)) * 2/3;
+*/
+
+const getScale = (depth: number): number => {
+  return Math.pow(3, depth - 1) * 1.14;
+};
 
 type TimeKeepingUnitProps = {
   unit: TimeKeepingUnit,
-  size?: number,
-  parentCenter?: Vector,
-  parentStart?: Vector,
+  start: Vector,
+  angle: number,
 }
 const TimeKeepingUnit = (
-  {unit, size, parentCenter, parentStart}: TimeKeepingUnitProps
+  {unit, start, angle}: TimeKeepingUnitProps
 ) => {
-  const {value} = unit;
-  const scale = Math.pow(3, depth(unit) - 1) * 1.14;
-  const angle = toRadian(value * 10);
-
-  const thisCenter = parentCenter 
-    ? (
-      getSVGRotation(
-        {x: parentCenter.x, y: parentCenter.y - ((Math.pow(3, scale - 1)) * 2)},
-        parentCenter,
-        angle,
-      )
-    )
-    : {x: size ? size/2 : 0, y: size ? size/2 : 0};
-
-  const hexStart = parentStart
-    ? findHexagonStartPoint(parentStart, value, scale)
-    : {x: size ? size / 3 : 0, y: size ? size / (3 * depth(unit)) : 0};
-
-  const howFarAlongTheLine = ((value * 6) % 1 * 2/3)
-  const hexAngle = ((howFarAlongTheLine * Math.PI * 3/2) % (Math.PI / 2)) * 2/3;
+  const depth = getDepth(unit);
 
   return (
     <>
-      {/*
-        Just replace the Hexagon with the commented out code
-        <circle
-          cx={thisCenter.x}
-          cy={thisCenter.y}
-          r={Math.pow(3, scale - 1)}
-        />
-        <text
-          x={thisCenter.x}
-          y={thisCenter.y}
-          style={{font: `normal ${scale}px monospace`}}
-        >
-          {depth(unit) === 5 ? months[value] : niftimal[Math.floor(value)]}
-        </text>
-      */}
       <Hexagon
-        start={hexStart}
-        length={scale}
-        angle={-hexAngle}
+        start={start}
+        length={getScale(depth)}
+        angle={angle}
+        value={unit.value}
       />
       {unit.smallerUnit && (
         <TimeKeepingUnit
           unit={unit.smallerUnit}
-          parentCenter={thisCenter}
-          parentStart={hexStart}
+          start={findHexagonStartPoint({
+            parentStart: start,
+            parentAngle: angle,
+            percentIntoUnit: unit.smallerUnit.value,
+            length: getScale(depth),
+          })}
+          angle={angle}
         />
       )}
     </>
