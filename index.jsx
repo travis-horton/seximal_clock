@@ -7,6 +7,7 @@ import {
   // sexaHoursInADay,
   milliSecondsInADay,
 } from './constants';
+import {niftimal, months} from './constants';
 import './styles.css';
 
 const SIZE = 40;
@@ -22,7 +23,7 @@ const getSexaTime = () => {
   return {
     value: 0,
     smallerUnit: {
-      value: sexaMinute,
+      value: sexaMinute/36,
       smallerUnit: {
         value: sexaSecond/36,
       },
@@ -44,13 +45,21 @@ export const SeximalTimeKeeping = () => {
     setSexaTime(getSexaTime());
   }
 
+  console.log(
+    'minute: ',
+    niftimal[Math.floor(sexaTime.smallerUnit.value * 36)],
+    'second: ',
+    niftimal[Math.floor(sexaTime.smallerUnit.smallerUnit.value * 36)]
+  );
   return (
     <div>
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`}>
         <TimeKeepingUnit
-          unit={sexaTime}
-          start={{x: SIZE/6, y: SIZE/6}}
-          angle={0}
+          parentAttrs={{
+            startPoint: {x: SIZE/3, y: SIZE/4},
+            angle: 0,
+          }}
+          self={sexaTime}
         />
       </svg>
     </div>

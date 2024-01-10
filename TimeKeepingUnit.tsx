@@ -4,45 +4,52 @@ import {TimeKeepingUnit, Vector} from './types';
 import {
   getDepth,
 } from './utils';
-import Hexagon, {findHexagonStartPoint} from './Hexagon';
-
-/*
-const howFarAlongTheLine = ((value * 6) % 1 * 2/3)
-const angle = ((howFarAlongTheLine * Math.PI * 3/2) % (Math.PI / 2)) * 2/3;
-*/
+import Hexagon, {
+  findHexagonStartPoint,
+  findHexagonAngle,
+} from './Hexagon';
 
 const getScale = (depth: number): number => {
   return Math.pow(3, depth - 1) * 1.14;
 };
 
-type TimeKeepingUnitProps = {
-  unit: TimeKeepingUnit,
-  start: Vector,
+type TimeKeepingUnitAttributes = {
+  startPoint: Vector,
   angle: number,
+};
+
+type TimeKeepingUnitProps = {
+  parentAttrs: TimeKeepingUnitAttributes,
+  self: TimeKeepingUnit,
 }
 const TimeKeepingUnit = (
-  {unit, start, angle}: TimeKeepingUnitProps
+  {parentAttrs, self}: TimeKeepingUnitProps
 ) => {
-  const depth = getDepth(unit);
-
+  const depth = getDepth(self);
+  const angle = findHexagonAngle({
+    parentAngle: parentAttrs.angle,
+    percentIntoUnit: self.value,
+  });
+  const start = findHexagonStartPoint({
+    parentStart: parentAttrs.startPoint,
+    parentAngle: parentAttrs.angle,
+    value: self.value,
+    length: getScale(depth),
+  });
   return (
     <>
       <Hexagon
         start={start}
         length={getScale(depth)}
         angle={angle}
-        value={unit.value}
       />
-      {unit.smallerUnit && (
+      {self.smallerUnit && (
         <TimeKeepingUnit
-          unit={unit.smallerUnit}
-          start={findHexagonStartPoint({
-            parentStart: start,
-            parentAngle: angle,
-            percentIntoUnit: unit.smallerUnit.value,
-            length: getScale(depth),
-          })}
-          angle={angle}
+          parentAttrs={{
+            startPoint: start,
+            angle: angle,
+          }}
+          self={self.smallerUnit}
         />
       )}
     </>

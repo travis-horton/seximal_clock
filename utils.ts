@@ -1,13 +1,30 @@
 import {TimeKeepingUnit, Vector} from './types';
 
-// x = r cosθ and y = r sinθ, but remember y axis is upside down
-
 const toRadian = (deg: number): number => deg * Math.PI/180;
 
-const getRotationOffset = (angle: number, radius: number): Vector => {
+type rotatePointVAroundPointWByAProps = {
+  v: Vector,
+  w: Vector,
+  a: number,
+};
+const rotatePointVAroundPointWByA = (
+  {v, w, a}: rotatePointVAroundPointWByAProps 
+): Vector => {
+  const rad = toRadian(a);
+  // Remove vector w to imitate rotating around origin
+  const vOffset = {
+    x: v.x - w.x,
+    y: v.y - w.y,
+  };
+  // Rotate offset vector around origin
+  const rotatedPoint = {
+    x: (vOffset.x * Math.cos(rad)) - (vOffset.y * Math.sin(rad)),
+    y: (vOffset.y * Math.cos(rad)) + (vOffset.x * Math.sin(rad)),
+  };
+  // Add back vector w to now-rotated point
   return {
-    x: radius * Math.cos(toRadian(angle)),
-    y: -radius * Math.sin(toRadian(angle)),
+    x: rotatedPoint.x + w.x,
+    y: rotatedPoint.y + w.y,
   };
 };
 
@@ -20,5 +37,5 @@ const getDepth = (unit: TimeKeepingUnit): number => {
 export {
   toRadian,
   getDepth,
-  getRotationOffset,
+  rotatePointVAroundPointWByA,
 };
