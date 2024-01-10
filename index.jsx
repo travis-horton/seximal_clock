@@ -54,14 +54,14 @@ export const SeximalTimeKeeping = () => {
     <div>
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`}>
         <Hexagon
-          start={{x: SIZE/3, y: SIZE/4}} 
+          start={{x: SIZE/2, y: SIZE/4}}
           length={getScale(getDepth(sexaTime) + 1)}
-          angle={0}
+          angle={30}
         />
         <TimeKeepingUnit
           parentAttrs={{
-            startPoint: {x: SIZE/3, y: SIZE/4},
-            angle: 0,
+            startPoint: {x: SIZE/2, y: SIZE/4},
+            angle:30,
           }}
           self={sexaTime}
         />
