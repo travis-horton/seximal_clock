@@ -144,6 +144,7 @@ const SVGHexagon = ({
 };
 
 export {
+  getHexagonCenter,
   findHexagonStartPoint,
   findHexagonAngle,
 };

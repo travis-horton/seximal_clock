@@ -1,17 +1,12 @@
 import React from 'react';
 import {niftimal, months} from './constants';
 import {TimeKeepingUnit, Vector} from './types';
-import {
-  getDepth,
-} from './utils';
+import {getDepth, getScale} from './utils';
 import Hexagon, {
   findHexagonStartPoint,
   findHexagonAngle,
 } from './Hexagon';
-
-const getScale = (depth: number): number => {
-  return Math.pow(3, depth - 1) * 1.14;
-};
+import DecorativeTriangles from './Triangles';
 
 type TimeKeepingUnitAttributes = {
   startPoint: Vector,
@@ -25,6 +20,7 @@ type TimeKeepingUnitProps = {
 const TimeKeepingUnit = (
   {parentAttrs, self}: TimeKeepingUnitProps
 ) => {
+  // TODO: Fix the extra roll
   const depth = getDepth(self);
   const angle = findHexagonAngle({
     parentAngle: parentAttrs.angle,
@@ -36,6 +32,7 @@ const TimeKeepingUnit = (
     value: self.value,
     length: getScale(depth),
   });
+
   return (
     <>
       <Hexagon
@@ -47,6 +44,11 @@ const TimeKeepingUnit = (
         {niftimal[Math.floor(self.value * 36)]}
         {self.smallerUnit ? ":" : null}
       </text>
+      <DecorativeTriangles
+        hexStart={start}
+        hexAngle={angle}
+        hexLength={getScale(depth)}
+      />
       {self.smallerUnit && (
         <TimeKeepingUnit
           parentAttrs={{

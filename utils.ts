@@ -28,6 +28,10 @@ const rotatePointVAroundPointWByA = (
   };
 };
 
+const getScale = (depth: number): number => {
+  return Math.pow(3, depth - 1) * 1.14;
+};
+
 const getDepth = (unit: TimeKeepingUnit): number => {
   return unit.smallerUnit
     ? 1 + getDepth(unit.smallerUnit)
@@ -35,7 +39,8 @@ const getDepth = (unit: TimeKeepingUnit): number => {
 };
 
 export {
-  toRadian,
   getDepth,
+  getScale,
   rotatePointVAroundPointWByA,
+  toRadian,
 };

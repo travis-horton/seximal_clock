@@ -8,6 +8,7 @@ import {
   sexaHoursInADay,
   milliSecondsInADay,
 } from './constants';
+import {getDepth, getScale} from './utils';
 import {niftimal, months} from './constants';
 import './styles.css';
 
@@ -52,7 +53,11 @@ export const SeximalTimeKeeping = () => {
   return (
     <div>
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`}>
-        <Hexagon start={{x: SIZE/3, y: SIZE/4}} length={10.26*3} angle={0} />
+        <Hexagon
+          start={{x: SIZE/3, y: SIZE/4}} 
+          length={getScale(getDepth(sexaTime) + 1)}
+          angle={0}
+        />
         <TimeKeepingUnit
           parentAttrs={{
             startPoint: {x: SIZE/3, y: SIZE/4},
