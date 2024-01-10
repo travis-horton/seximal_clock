@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
 import TimeKeepingUnit from './TimeKeepingUnit';
+import Hexagon from './Hexagon';
 import {
   sexaSecsInADay,
   sexaMinsInADay,
-  // sexaHoursInADay,
+  sexaHoursInADay,
   milliSecondsInADay,
 } from './constants';
 import {niftimal, months} from './constants';
 import './styles.css';
 
-const SIZE = 40;
+const SIZE = 100;
 
 const getSexaTime = () => {
   const now = new Date();
@@ -18,14 +19,17 @@ const getSexaTime = () => {
   const percentIntoDay = currentMilliSecond / milliSecondsInADay;
   const sexaSecond = (sexaSecsInADay * percentIntoDay) % 36;
   const sexaMinute = (sexaMinsInADay * percentIntoDay) % 36;
-  // const sexaHour = (sexaHoursInADay * percentIntoDay) % 36;
+  const sexaHour = (sexaHoursInADay * percentIntoDay) % 36;
 
   return {
-    value: 0,
+    value: sexaHour/36,
+    factor: 36,
     smallerUnit: {
       value: sexaMinute/36,
+      factor: 36,
       smallerUnit: {
         value: sexaSecond/36,
+        factor: 36,
       },
     },
   };
@@ -45,15 +49,10 @@ export const SeximalTimeKeeping = () => {
     setSexaTime(getSexaTime());
   }
 
-  console.log(
-    'minute: ',
-    niftimal[Math.floor(sexaTime.smallerUnit.value * 36)],
-    'second: ',
-    niftimal[Math.floor(sexaTime.smallerUnit.smallerUnit.value * 36)]
-  );
   return (
     <div>
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`}>
+        <Hexagon start={{x: SIZE/3, y: SIZE/4}} length={10.26*3} angle={0} />
         <TimeKeepingUnit
           parentAttrs={{
             startPoint: {x: SIZE/3, y: SIZE/4},

@@ -139,7 +139,6 @@ const SVGHexagon = ({
     <polygon
       points={points}
       stroke="black"
-      strokeWidth=".1"
     />
   );
 };

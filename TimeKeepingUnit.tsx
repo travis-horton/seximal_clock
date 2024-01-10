@@ -43,6 +43,10 @@ const TimeKeepingUnit = (
         length={getScale(depth)}
         angle={angle}
       />
+      <text y={20} x={(4 - depth) * 15} fontFamily="monospace">
+        {niftimal[Math.floor(self.value * 36)]}
+        {self.smallerUnit ? ":" : null}
+      </text>
       {self.smallerUnit && (
         <TimeKeepingUnit
           parentAttrs={{
