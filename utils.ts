@@ -29,7 +29,7 @@ const rotatePointVAroundPointWByA = (
 };
 
 const getScale = (depth: number): number => {
-  return Math.pow(3, depth - 1) * 1.14;
+  return Math.pow(2, depth - 1) * 3;
 };
 
 const getDepth = (unit: TimeKeepingUnit): number => {
