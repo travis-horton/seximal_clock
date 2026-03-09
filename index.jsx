@@ -44,7 +44,7 @@ export const SeximalTimeKeeping = () => {
     return function cleanup() {
       clearInterval(timerID);
     };
-  });
+  }, []);
 
   function tick() {
     setSexaTime(getSexaTime());
