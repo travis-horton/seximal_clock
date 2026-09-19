@@ -11,6 +11,15 @@ This is the whole history of the seximal clock, newest first, written for someon
 
 *Written from the git history on 26.0918 and checked against the code of that day. From then on, each pull request carries its own entry and it is added here automatically when the pull request merges.*
 
+## September 2026
+
+**seximal_clock #1: a plain-words history of the clock** · [PR #1](https://github.com/travis-horton/seximal_clock/pull/1) · merged 26.0919.1336 · v1.5.0
+- **[The whole history, written out](https://github.com/travis-horton/seximal_clock/commit/1e0b94e)** · merged 26.0919.1336
+  New: a history page, HISTORY.md, tells the clock's story from the first round clock face on 24.0104, through circles turning inside circles, to the rolling hexagons of 24.0110. Each step says what changed in plain words and carries a version number, with the current clock at v1.4.2.
+  Try it: open https://github.com/travis-horton/seximal_clock/blob/main/HISTORY.md
+- **[The history keeps itself current](https://github.com/travis-horton/seximal_clock/commit/87509d7)** · merged 26.0919.1336
+  New: from now on, each proposed change carries its own plain-words entry, GitHub marks one that's missing it, and when it's accepted GitHub adds the entry to the top of the history and gives it the next version number.
+
 ## March 2026
 
 **The clock keeps one timer running** · [commit ca6f1b2](https://github.com/travis-horton/seximal_clock/commit/ca6f1b2) · merged 26.0309.1154 · v1.4.2
