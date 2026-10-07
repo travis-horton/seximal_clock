@@ -11,6 +11,11 @@ This is the whole history of the seximal clock, newest first, written for someon
 
 *Written from the git history on 26.0918 and checked against the code of that day. From then on, each pull request carries its own entry and it is added here automatically when the pull request merges.*
 
+## October 2026
+
+**seximal_clock #2: the clock can be tested again** · [PR #2](https://github.com/travis-horton/seximal_clock/pull/2) · merged 26.1007.1039 · v1.5.1
+- Fixed: one of the clock's files gave the same name to a description of a clock hand and to the piece that draws it. The website's build accepted that, but its automatic tests stopped with a "duplicate name" error and could not load the clock at all. The description now has its own name, and the clock looks and moves exactly as before.
+
 ## September 2026
 
 **seximal_clock #1: a plain-words history of the clock** · [PR #1](https://github.com/travis-horton/seximal_clock/pull/1) · merged 26.0919.1336 · v1.5.0
