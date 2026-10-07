@@ -1,6 +1,9 @@
 import React from 'react';
 import {niftimal, months} from './constants';
-import {TimeKeepingUnit, Vector} from './types';
+import type {
+  TimeKeepingUnit as TimeKeepingUnitData,
+  Vector,
+} from './types';
 import {getDepth, getScale} from './utils';
 import Hexagon, {
   findHexagonStartPoint,
@@ -15,7 +18,7 @@ type TimeKeepingUnitAttributes = {
 
 type TimeKeepingUnitProps = {
   parentAttrs: TimeKeepingUnitAttributes,
-  self: TimeKeepingUnit,
+  self: TimeKeepingUnitData,
 }
 const TimeKeepingUnit = (
   {parentAttrs, self}: TimeKeepingUnitProps
