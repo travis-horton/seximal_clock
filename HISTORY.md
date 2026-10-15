@@ -13,6 +13,9 @@ This is the whole history of the seximal clock, newest first, written for someon
 
 ## October 2026
 
+**seximal_clock #3: the change log catches up on entries it missed** · [PR #3](https://github.com/travis-horton/seximal_clock/pull/3) · merged 26.1015.0727 · v1.5.2
+- Behind the scenes: the robot that writes this file after each change now also writes in any earlier finished change it missed, oldest first, with a "recorded late" note when it is more than an hour late. If GitHub won't answer one of its lookups, it skips only that one, records the newest change anyway, and fills the gap on a later run.
+
 **seximal_clock #2: the clock can be tested again** · [PR #2](https://github.com/travis-horton/seximal_clock/pull/2) · merged 26.1007.1039 · v1.5.1
 - Fixed: one of the clock's files gave the same name to a description of a clock hand and to the piece that draws it. The website's build accepted that, but its automatic tests stopped with a "duplicate name" error and could not load the clock at all. The description now has its own name, and the clock looks and moves exactly as before.
 
